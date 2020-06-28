@@ -3,6 +3,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("org.springframework.boot") version "2.3.1.RELEASE"
 	id("io.spring.dependency-management") version "1.0.9.RELEASE"
+	id("io.gitlab.arturbosch.detekt") version "1.9.1"
+	id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
 	kotlin("jvm") version "1.3.72"
 	kotlin("plugin.spring") version "1.3.72"
 }
@@ -46,5 +48,21 @@ tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
 		jvmTarget = "11"
+	}
+}
+
+val reportsDir = "$buildDir/reports/"
+
+detekt {
+	input = files("src/main/kotlin")
+	config = files("config/detekt/config.yaml")
+	baseline = file("config/detekt/baseline.xml")
+	reportsDir = file("$reportsDir/detekt/")
+	buildUponDefaultConfig = false
+
+	reports {
+		html.enabled = true
+		txt.enabled = true
+		xml.enabled = false
 	}
 }
