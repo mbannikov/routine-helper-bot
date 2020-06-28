@@ -1,5 +1,9 @@
 #!/bin/bash
 
+######### Save secret files ########
+git secret hide
+
+
 ######### Static analyzing ########
 echo "Running static analyzer"
 ./gradlew --quiet --daemon detekt
