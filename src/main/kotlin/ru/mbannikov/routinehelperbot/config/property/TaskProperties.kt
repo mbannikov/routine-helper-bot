@@ -2,7 +2,6 @@ package ru.mbannikov.routinehelperbot.config.property
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
-import org.springframework.format.annotation.DateTimeFormat
 import java.time.Duration
 import java.time.LocalTime
 
