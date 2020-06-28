@@ -28,14 +28,13 @@ class TrelloTaskRepository(
             WEEK_GOALS -> getWeekGoals()
         }
 
-    private fun getDayTasks(): List<Task> =
-        tasksTrelloList.getCards().map {
-            Task(title = it.name, description = it.desc, label = DAY)
-        }
+    private fun getDayTasks(): List<Task> = buildTaskList(tasksTrelloList, DAY)
 
-    private fun getWeekGoals(): List<Task> =
-        goalsTrelloList.getCards().map {
-            Task(title = it.name, description = it.desc, label = WEEK_GOALS)
+    private fun getWeekGoals(): List<Task> = buildTaskList(goalsTrelloList, WEEK_GOALS)
+
+    private fun buildTaskList(trelloList: TrelloList, label: TaskLabel): List<Task> =
+        trelloList.getCards().map {
+            Task(title = it.name, description = it.desc.ifEmpty { null }, label = label)
         }
 
     private fun findTrelloList(props: TrelloListProperties): TrelloList =
