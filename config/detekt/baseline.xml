@@ -2,5 +2,6 @@
 <SmellBaseline>
   <Blacklist></Blacklist>
   <Whitelist>
+    <ID>SpreadOperator:RoutineHelperBotApplication.kt$(*args)</ID>
   </Whitelist>
 </SmellBaseline>
