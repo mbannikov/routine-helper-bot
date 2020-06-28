@@ -21,10 +21,9 @@ class TasksReminderJob(
             return
         }
 
-        listOf(taskListMessageBuilder, goalListMessageBuilder).forEach { builder ->
-            val message = builder.build()
-            telegramBot.sendMessage(message)
-        }
+        listOf(taskListMessageBuilder, goalListMessageBuilder)
+            .mapNotNull { it.build() }
+            .forEach { telegramBot.sendMessage(it) }
 
         log.debug { "A reminder message was sent" }
     }

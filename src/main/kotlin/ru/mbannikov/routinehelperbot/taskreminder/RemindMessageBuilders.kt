@@ -5,18 +5,18 @@ import ru.mbannikov.routinehelperbot.taskreminder.entity.TaskLabel
 import ru.mbannikov.routinehelperbot.taskreminder.repository.TaskRepository
 
 interface RemindMessageBuilders {
-    fun build(): String
+    fun build(): String?
 }
 
 @Component
 class TaskListRemindMessageBuilder(
     private val taskRepository: TaskRepository
 ) : RemindMessageBuilders {
-    override fun build(): String {
-        val tasks = taskRepository.getListByLabel(TaskLabel.DAY)
+    override fun build(): String? {
+        val tasks = taskRepository.getListByLabel(TaskLabel.DAY).ifEmpty { null }
 
-        return tasks.mapIndexed { index, task -> "${index + 1}. ${task.title}" }
-            .joinToString(separator = "\n", prefix = "$TASKS_EMOJI *Задачи на сегодня:*\n")
+        return tasks?.mapIndexed { index, task -> "${index + 1}. ${task.title}" }
+            ?.joinToString(separator = "\n", prefix = "$TASKS_EMOJI *Задачи на сегодня:*\n")
     }
 
     companion object {
@@ -28,11 +28,11 @@ class TaskListRemindMessageBuilder(
 class GoalListRemindMessageBuilder(
     private val taskRepository: TaskRepository
 ) : RemindMessageBuilders {
-    override fun build(): String {
-        val goals = taskRepository.getListByLabel(TaskLabel.WEEK_GOALS)
+    override fun build(): String? {
+        val goals = taskRepository.getListByLabel(TaskLabel.WEEK_GOALS).ifEmpty { null }
 
-        return goals.mapIndexed { index, task -> "${index + 1}. ${task.title}" }
-            .joinToString(separator = "\n", prefix = "$GOALS_EMOJI *Цели этой недели:*\n")
+        return goals?.mapIndexed { index, task -> "${index + 1}. ${task.title}" }
+            ?.joinToString(separator = "\n", prefix = "$GOALS_EMOJI *Цели этой недели:*\n")
     }
 
     companion object {
