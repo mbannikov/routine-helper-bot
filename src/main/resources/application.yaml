@@ -1,0 +1,22 @@
+application:
+  tasks:
+    notification-period:
+      start: 10:30 AM
+      finish: 11:00 PM
+    message-frequency: PT30M
+
+trello:
+  api:
+    key: none
+    token: none
+  day-task-list:
+    board-id: none
+    list-name: Day
+  week-goal-list:
+    board-id: none
+    list-name: Week
+
+telegram:
+  api:
+    bot-token: none
+  owner-chat-id: none
