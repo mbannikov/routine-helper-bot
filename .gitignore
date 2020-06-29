@@ -34,4 +34,3 @@ out/
 ### Git Secrets ###
 .gitsecret/keys/random_seed
 !*.secret
-src/main/resources/application.yaml

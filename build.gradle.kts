@@ -59,7 +59,7 @@ detekt {
     input = files("src/main/kotlin")
     config = files("config/detekt/config.yaml")
     baseline = file("config/detekt/baseline.xml")
-    reportsDir = file("$reportsDir/detekt/")
+    reportsDir = file("$reportsDir")
     buildUponDefaultConfig = false
 
     reports {

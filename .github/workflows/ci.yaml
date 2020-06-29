@@ -1,0 +1,65 @@
+name: Master pipeline
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build
+        run: ./gradlew --daemon build
+      - uses: actions/upload-artifact@v1
+        with:
+          name: build
+          path: ${{ github.workspace }}
+      - name: Persist failure report
+        if: failure()
+        uses: actions/upload-artifact@v1
+        with:
+          name: failure-report
+          path: build/reports/
+  code-style:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: build
+          path: ${{ github.workspace }}
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Run linter
+        run: ./gradlew --daemon ktlintCheck
+      - name: Persist linter report
+        if: failure()
+        uses: actions/upload-artifact@v1
+        with:
+          name: ktlint-report
+          path: build/reports/ktlint
+  static-analysis:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: build
+          path: ${{ github.workspace }}
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Run static analyzer
+        run: ./gradlew --daemon detekt
+      - name: Persist static analyzer report
+        if: failure()
+        uses: actions/upload-artifact@v1
+        with:
+          name: detekt-report
+          path: build/reports/detekt
