@@ -63,3 +63,16 @@ jobs:
         with:
           name: detekt-report
           path: build/reports/detekt
+  docker-image:
+    needs: [build, code-style, static-analysis]
+    runs-on: ubuntu-latest
+    env:
+      REPOSITORY: ${{ secrets.DOCKER_REPOSITORY }}
+    steps:
+      - uses: actions/checkout@v1
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build Docker image
+        run: docker build -t $REPOSITORY:latest -t $REPOSITORY:${GITHUB_SHA::8} .
+      - name: Publish Docker image
+        run: docker push $REPOSITORY
