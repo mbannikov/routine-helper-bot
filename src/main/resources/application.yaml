@@ -3,6 +3,7 @@ application:
     notification-period:
       start: 10:30 AM
       finish: 11:00 PM
+      time-zone: Europe/Moscow
     message-frequency: PT30M
 
 trello:

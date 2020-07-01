@@ -30,7 +30,7 @@ class TasksReminderJob(
 
     private val isSilentTime: Boolean
         get() {
-            val now = LocalTime.now()
-            return !(now > taskProperties.notificationPeriod.start && now < taskProperties.notificationPeriod.finish)
+            val now = LocalTime.now(taskProperties.notificationPeriod.timeZone)
+            return !(now.isAfter(taskProperties.notificationPeriod.start) && now.isBefore(taskProperties.notificationPeriod.finish))
         }
 }

@@ -4,6 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import java.time.Duration
 import java.time.LocalTime
+import java.time.ZoneId
 
 @ConstructorBinding
 @ConfigurationProperties("application.tasks")
@@ -13,6 +14,7 @@ data class TaskProperties(
 ) {
     data class NotificationPeriod(
         val start: LocalTime,
-        val finish: LocalTime
+        val finish: LocalTime,
+        val timeZone: ZoneId
     )
 }
