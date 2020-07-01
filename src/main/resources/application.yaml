@@ -4,7 +4,7 @@ application:
       start: 10:30 AM
       finish: 11:00 PM
       time-zone: Europe/Moscow
-    message-frequency: PT30M
+    message-frequency: PT60M
 
 trello:
   api:
