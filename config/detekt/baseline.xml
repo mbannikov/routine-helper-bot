@@ -2,6 +2,9 @@
 <SmellBaseline>
   <Blacklist></Blacklist>
   <Whitelist>
+    <ID>MagicNumber:MeasureTimeLogDao.kt$MeasureTimeLogDaoImpl$7</ID>
+    <ID>MagicNumber:TelegramBotTimeCommand.kt$TelegramBotTimeCommand$60</ID>
     <ID>SpreadOperator:RoutineHelperBotApplication.kt$(*args)</ID>
+    <ID>TooGenericExceptionCaught:TelegramBotTimeCommand.kt$TelegramBotTimeCommand$e: Throwable</ID>
   </Whitelist>
 </SmellBaseline>

@@ -9,6 +9,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
+    kotlin("plugin.jpa") version "1.3.72"
 }
 
 group = "ru.mbannikov"
@@ -28,12 +29,15 @@ repositories {
 }
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.github.microutils:kotlin-logging:1.7.10")
     implementation("com.github.TheForbiddenAi:TrelloWrapper-Kotlin:1.0.0")
     implementation("io.github.kotlin-telegram-bot.kotlin-telegram-bot:telegram:5.0.0")
+
+    runtimeOnly("com.h2database:h2")
 
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 

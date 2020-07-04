@@ -1,9 +1,9 @@
 application:
+  time-zone: Europe/Moscow
   tasks:
     notification-period:
       start: 10:30 AM
       finish: 11:00 PM
-      time-zone: Europe/Moscow
     message-frequency: PT60M
 
 trello:
@@ -21,3 +21,11 @@ telegram:
   api:
     bot-token: "**MASKED**"
   owner-chat-id: 100500
+
+spring:
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:file:/data/routine-db;DB_CLOSE_ON_EXIT=FALSE;IFEXISTS=TRUE;
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate.ddl-auto: update
