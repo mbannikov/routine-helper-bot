@@ -1,4 +1,4 @@
-package ru.mbannikov.routinehelperbot.timemeasure
+package ru.mbannikov.routinehelperbot.timemeasurement
 
 import org.springframework.stereotype.Component
 import java.time.Duration

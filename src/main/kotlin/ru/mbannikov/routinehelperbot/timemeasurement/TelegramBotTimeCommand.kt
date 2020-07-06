@@ -1,4 +1,4 @@
-package ru.mbannikov.routinehelperbot.timemeasure
+package ru.mbannikov.routinehelperbot.timemeasurement
 
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.CommandHandleUpdate
@@ -6,7 +6,7 @@ import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.Update
 import org.springframework.stereotype.Component
 import ru.mbannikov.routinehelperbot.TelegramBotCommandWithArgs
-import ru.mbannikov.routinehelperbot.timemeasure.repository.MeasureTimeLogRepository
+import ru.mbannikov.routinehelperbot.timemeasurement.repository.MeasureTimeLogRepository
 import ru.mbannikov.routinehelperbot.utils.Logging
 import java.time.Duration
 

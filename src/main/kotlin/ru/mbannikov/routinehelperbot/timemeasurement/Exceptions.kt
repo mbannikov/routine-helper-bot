@@ -1,4 +1,4 @@
-package ru.mbannikov.routinehelperbot.timemeasure
+package ru.mbannikov.routinehelperbot.timemeasurement
 
 class TimerWasNotStarted : RuntimeException("timer was not started")
 

@@ -1,8 +1,8 @@
-package ru.mbannikov.routinehelperbot.timemeasure.repository
+package ru.mbannikov.routinehelperbot.timemeasurement.repository
 
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
-import ru.mbannikov.routinehelperbot.timemeasure.entity.MeasureTimeLogItem
+import ru.mbannikov.routinehelperbot.timemeasurement.entity.MeasureTimeLogItem
 import java.time.Instant
 
 @Repository

@@ -1,4 +1,4 @@
-package ru.mbannikov.routinehelperbot.timemeasure.entity
+package ru.mbannikov.routinehelperbot.timemeasurement.entity
 
 import java.time.Instant
 import javax.persistence.Entity
