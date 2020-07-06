@@ -70,6 +70,7 @@ class TelegramBotTimeCommand(
         val duration = Duration.ofMinutes(minutes)
 
         measureTimeLogRepository.saveNegativeMeasureTime(duration)
+        // TODO: отправлять какое-то ответное сообщение
     }
 
     private fun sendHelpMessage(bot: Bot, update: Update) {
