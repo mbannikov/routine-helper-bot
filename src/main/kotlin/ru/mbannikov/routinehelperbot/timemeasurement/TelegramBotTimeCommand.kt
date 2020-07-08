@@ -9,6 +9,7 @@ import ru.mbannikov.routinehelperbot.TelegramBotCommandWithArgs
 import ru.mbannikov.routinehelperbot.timemeasurement.repository.MeasureTimeLogRepository
 import ru.mbannikov.routinehelperbot.utils.Logging
 import java.time.Duration
+import kotlin.reflect.KFunction1
 
 @Component
 class TelegramBotTimeCommand(
@@ -36,6 +37,7 @@ class TelegramBotTimeCommand(
             START_ACTION -> handleStartAction(bot, update)
             FINISH_ACTION -> handleFinishAction(bot, update)
             MINUS_ACTION -> handleMinusAction(bot, update, args.subList(1, args.size))
+            PLUS_ACTION -> handlePlusAction(bot, update, args.subList(1, args.size))
             null -> sendHelpMessage(bot, update)
         }
     }
@@ -66,10 +68,23 @@ class TelegramBotTimeCommand(
     private fun handleMinusAction(bot: Bot, update: Update, args: List<String>) {
         log.info { "got command \"/$command $MINUS_ACTION\" with args $args" }
 
+        handlePlusOrMinusAction(args, measureTimeLogRepository::saveNegativeMeasureTime)
+    }
+
+    private fun handlePlusAction(bot: Bot, update: Update, args: List<String>) {
+        log.info { "got command \"/$command $PLUS_ACTION\" with args $args" }
+
+        handlePlusOrMinusAction(args, measureTimeLogRepository::saveMeasureTime)
+    }
+
+    private fun handlePlusOrMinusAction(
+        args: List<String>,
+        handler: KFunction1<@ParameterName(name = "duration") Duration, Unit>
+    ) {
         val minutes = args.firstOrNull()?.toLong() ?: throw MinusCommandWithoutArgs()
         val duration = Duration.ofMinutes(minutes)
 
-        measureTimeLogRepository.saveNegativeMeasureTime(duration)
+        handler(duration)
         // TODO: отправлять какое-то ответное сообщение
     }
 
@@ -118,5 +133,6 @@ class TelegramBotTimeCommand(
         private const val START_ACTION = "start"
         private const val FINISH_ACTION = "finish"
         private const val MINUS_ACTION = "minus"
+        private const val PLUS_ACTION = "plus"
     }
 }
