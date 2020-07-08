@@ -38,6 +38,7 @@ class TelegramBotTimeCommand(
             FINISH_ACTION -> handleFinishAction(bot, update)
             MINUS_ACTION -> handleMinusAction(bot, update, args.subList(1, args.size))
             PLUS_ACTION -> handlePlusAction(bot, update, args.subList(1, args.size))
+            STAT_ACTION -> handleStatAction(bot, update)
             null -> sendHelpMessage(bot, update)
         }
     }
@@ -68,16 +69,18 @@ class TelegramBotTimeCommand(
     private fun handleMinusAction(bot: Bot, update: Update, args: List<String>) {
         log.info { "got command \"/$command $MINUS_ACTION\" with args $args" }
 
-        handlePlusOrMinusAction(args, measureTimeLogRepository::saveNegativeMeasureTime)
+        handlePlusOrMinusAction(bot, update, args, measureTimeLogRepository::saveNegativeMeasureTime)
     }
 
     private fun handlePlusAction(bot: Bot, update: Update, args: List<String>) {
         log.info { "got command \"/$command $PLUS_ACTION\" with args $args" }
 
-        handlePlusOrMinusAction(args, measureTimeLogRepository::saveMeasureTime)
+        handlePlusOrMinusAction(bot, update, args, measureTimeLogRepository::saveMeasureTime)
     }
 
     private fun handlePlusOrMinusAction(
+        bot: Bot,
+        update: Update,
         args: List<String>,
         handler: KFunction1<@ParameterName(name = "duration") Duration, Unit>
     ) {
@@ -85,7 +88,16 @@ class TelegramBotTimeCommand(
         val duration = Duration.ofMinutes(minutes)
 
         handler(duration)
-        // TODO: отправлять какое-то ответное сообщение
+
+        val responseMessage = buildStatisticMessage()
+        bot.sendMessage(chatId = update.message!!.chat.id, text = responseMessage, parseMode = ParseMode.MARKDOWN)
+    }
+
+    private fun handleStatAction(bot: Bot, update: Update) {
+        log.info { "got command \"/$command $STAT_ACTION\"" }
+
+        val responseMessage = buildStatisticMessage()
+        bot.sendMessage(chatId = update.message!!.chat.id, text = responseMessage, parseMode = ParseMode.MARKDOWN)
     }
 
     private fun sendHelpMessage(bot: Bot, update: Update) {
@@ -99,6 +111,12 @@ class TelegramBotTimeCommand(
             |
             |*Отнять продолжительность минут* (на случай, если забыл завершить замер):
             |/$command $MINUS_ACTION %MIN%
+            |
+            |*Прибавить продолжительность минут* (на случай, если замер не делался):
+            |/$command $PLUS_ACTION %MIN%
+            |
+            |*Показать статистику за день и текущую неделю:*
+            |/$command $STAT_ACTION
         """.trimMargin()
 
         bot.sendMessage(chatId = update.message!!.chat.id, text = responseMessage, parseMode = ParseMode.MARKDOWN)
@@ -118,6 +136,15 @@ class TelegramBotTimeCommand(
             "Ранее таймер не был запущен."
         }
 
+    private fun buildStatisticMessage(): String {
+        val todaySpentTime = measureTimeLogRepository.getTodayDuration().let(::buildSpentTimeString)
+        val thisWeekSpentTime = measureTimeLogRepository.getThisWeekDuration().let(::buildSpentTimeString)
+
+        return """В течении дня: $todaySpentTime
+            |В течении недели: $thisWeekSpentTime
+        """.trimMargin()
+    }
+
     private fun buildSpentTimeString(duration: Duration): String {
         val durationInMinutes = duration.toMinutes()
         val hours = durationInMinutes / 60
@@ -134,5 +161,6 @@ class TelegramBotTimeCommand(
         private const val FINISH_ACTION = "finish"
         private const val MINUS_ACTION = "minus"
         private const val PLUS_ACTION = "plus"
+        private const val STAT_ACTION = "stat"
     }
 }
