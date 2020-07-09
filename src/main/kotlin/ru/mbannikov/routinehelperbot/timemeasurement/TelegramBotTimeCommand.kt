@@ -20,7 +20,7 @@ class TelegramBotTimeCommand(
     override val handler: CommandHandleUpdate = { bot, update, args ->
         try {
             handle(bot, update, args)
-        } catch (e: MinusCommandWithoutArgs) {
+        } catch (e: CommandWithoutArgsException) {
             sendHelpMessage(bot, update)
         } catch (e: Throwable) {
             log.error(e) { "Unknown error" }
@@ -83,7 +83,7 @@ class TelegramBotTimeCommand(
         args: List<String>,
         handler: KFunction1<@ParameterName(name = "duration") Duration, Unit>
     ) {
-        val minutes = args.firstOrNull()?.toLong() ?: throw MinusCommandWithoutArgs()
+        val minutes = args.firstOrNull()?.toLong() ?: throw CommandWithoutArgsException()
         val duration = Duration.ofMinutes(minutes)
 
         handler(duration)
@@ -155,7 +155,7 @@ private class MessageBuilder private constructor() {
                 |В течении дня: $todaySpentTime
                 |В течении недели: $thisWeekSpentTime
             """.trimMargin()
-            } catch (e: TimerWasNotStarted) {
+            } catch (e: TimerHasToBeStartedException) {
                 "Ранее таймер не был запущен."
             }
 

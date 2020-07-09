@@ -16,7 +16,7 @@ class TimeMeasurer {
         timer?.run {
             timer = null
             duration
-        } ?: throw TimerWasNotStarted()
+        } ?: throw TimerHasToBeStartedException()
 }
 
 private class Timer {
