@@ -3,9 +3,8 @@
   <Blacklist></Blacklist>
   <Whitelist>
     <ID>MagicNumber:MeasureTimeLogDao.kt$MeasureTimeLogDaoImpl$7</ID>
-    <ID>MagicNumber:TelegramBotTimeCommand.kt$TelegramBotTimeCommand$60</ID>
+    <ID>MagicNumber:TelegramBotTimeCommand.kt$MessageBuilder.Companion$60</ID>
     <ID>SpreadOperator:RoutineHelperBotApplication.kt$(*args)</ID>
     <ID>TooGenericExceptionCaught:TelegramBotTimeCommand.kt$TelegramBotTimeCommand$e: Throwable</ID>
-    <ID>TooManyFunctions:TelegramBotTimeCommand.kt$TelegramBotTimeCommand$TelegramBotTimeCommand</ID>
   </Whitelist>
 </SmellBaseline>
